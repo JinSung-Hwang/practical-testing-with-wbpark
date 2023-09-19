@@ -3,6 +3,7 @@ package sample.cafekiosk.unit;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import sample.cafekiosk.unit.beaverage.Americano;
+import sample.cafekiosk.unit.beaverage.Latte;
 import sample.cafekiosk.unit.order.Order;
 
 import java.time.LocalDateTime;
@@ -85,6 +86,18 @@ class CafeKioskTest {
 
     // Then
     assertThat(cafeKiosk.getBeaverages()).isEmpty();
+  }
+
+  @Test
+  void calculateTotalPrice() {
+    CafeKiosk cafeKiosk = new CafeKiosk();
+    Americano americano = new Americano();
+    Latte latte = new Latte();
+
+    cafeKiosk.add(americano);
+    cafeKiosk.add(latte);
+
+    assertThat(cafeKiosk.calculateTotalPrice()).isEqualTo(3500);
   }
 
   @Disabled

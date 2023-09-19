@@ -40,11 +40,14 @@ public class CafeKiosk {
   }
 
   public int calculateTotalPrice() {
-    int totalAmount = 0;
-    for(Beaverage beaverage: beaverages) {
-      totalAmount += beaverage.getPrice();
-    }
-    return totalAmount;
+//    int totalAmount = 0;
+//    for(Beaverage beaverage: beaverages) {
+//      totalAmount += beaverage.getPrice();
+//    }
+//    return totalAmount;
+    return beaverages.stream()
+      .mapToInt(Beaverage::getPrice)
+      .sum();
   }
 
   public Order createOrder() {
