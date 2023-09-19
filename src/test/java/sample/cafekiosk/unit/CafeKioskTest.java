@@ -1,6 +1,7 @@
 package sample.cafekiosk.unit;
 
 import org.junit.jupiter.api.Disabled;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import sample.cafekiosk.unit.beaverage.Americano;
 import sample.cafekiosk.unit.beaverage.Latte;
@@ -21,7 +22,9 @@ class CafeKioskTest {
     System.out.println("담긴 음료 수:" + cafeKiosk.getBeaverages().size()); // note: 이렇게 테스트하면 사람이 매번 확인해야하기때문에 자동화 테스트가 아니다. 테스트가 100, 1000개 넘어가면 사람이 일일이 확인 못한다.
     System.out.println("담긴 음료 이름:" + cafeKiosk.getBeaverages().get(0).getName()); // note: 당연히 단언을 사용해서 테스트해야한다.
   }
-  
+
+//  @DisplayName("음료 1개 추가 테스트")
+  @DisplayName("음료 1개 추가하여 주문 목록에 담겨있는지 확인한다.") // note: 위 테스트 보다는 이 테스트가 보기 더 편하다
   @Test
   void add() {
     // Given
@@ -118,7 +121,7 @@ class CafeKioskTest {
     cafeKiosk.add(americano);
     // When
     Order order = cafeKiosk.createOrder();
-    
+
     // Then
     assertThat(order.getBeaverages()).hasSize(1);
     assertThat(order.getBeaverages().get(0).getName()).isEqualTo("Americano");
