@@ -1,0 +1,52 @@
+spring:
+  profiles:
+    default: local
+
+  datasource:
+    url: jdbc:h2:mem:~/cafeKioskApplication
+    driver-class-name: org.h2.Driver
+    username: sa
+    password:
+
+  jpa:
+    hibernate:
+      ddl-auto: none
+
+---
+spring:
+  config:
+    activate:
+      on-profile: local
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+    defer-datasource-initialization: true # Hibernate 초기화 이후에 data.sql 파일 실행하라는 뜻,
+                                          # true가 아니면 data.sql이 먼저 실행되는데 스키마 정보는 JPA entity를 사용하기때문에 스키마가 없어서 data.sql이 오류가 난다. (2.5 이상에서 동작함)
+
+  h2:
+    console:
+      enabled: true
+
+---
+spring:
+  config:
+    activate:
+      on-profile: test
+
+  jpa:
+    hibernate:
+      ddl-auto: create
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+  sql:
+    init:
+      mode: never
+
