@@ -15,7 +15,7 @@ public class ProductResponse {
   private String name;
   private int price;
 
-  @Builder
+  @Builder // note: 이렇게 클래스가 아닌 method에 @Builder를 붙이면 @Builder패턴으로 생성할 수 있는 필드를 제한 할 수 있다.
   private ProductResponse(Long id, String productNumber, ProductType type, ProductSellingStatus sellingStatus, String name, int price) {
     // note: builder를 외부에서 사용하지 못하도록 private를 선언했다.
     this.id = id;
