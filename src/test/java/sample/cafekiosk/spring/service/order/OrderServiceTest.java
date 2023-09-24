@@ -36,16 +36,12 @@ import static sample.cafekiosk.spring.domain.product.ProductType.*;
 class OrderServiceTest {
   @Autowired
   private OrderService orderService;
-
   @Autowired
   private ProductRepository productRepository;
-
   @Autowired
   private OrderRepository orderRepository;
-
   @Autowired
   private OrderProductRepository orderProductRepository;
-
   @Autowired
   private StockRepository stockRepository;
 
