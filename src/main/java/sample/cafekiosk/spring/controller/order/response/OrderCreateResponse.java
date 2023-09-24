@@ -10,22 +10,22 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Getter
-public class CreateOrderResponse {
+public class OrderCreateResponse {
   private Long id;
   private int totalPrice;
   private LocalDateTime registeredDateTime;
   private List<ProductResponse> products;
 
   @Builder
-  private CreateOrderResponse(Long id, int totalPrice, LocalDateTime registeredDateTime, List<ProductResponse> products) {
+  private OrderCreateResponse(Long id, int totalPrice, LocalDateTime registeredDateTime, List<ProductResponse> products) {
     this.id = id;
     this.totalPrice = totalPrice;
     this.registeredDateTime = registeredDateTime;
     this.products = products;
   }
 
-  public static CreateOrderResponse of(Order savedOrder) {
-    return CreateOrderResponse.builder()
+  public static OrderCreateResponse of(Order savedOrder) {
+    return OrderCreateResponse.builder()
              .id(savedOrder.getId())
              .totalPrice(savedOrder.getTotalPrice())
              .registeredDateTime(savedOrder.getRegisteredDateTime())

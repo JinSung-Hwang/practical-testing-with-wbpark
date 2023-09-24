@@ -4,7 +4,7 @@ package sample.cafekiosk.spring.domain.product;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
@@ -15,8 +15,9 @@ import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.*;
 import static sample.cafekiosk.spring.domain.product.ProductType.HANDMADE;
 
 @ActiveProfiles("test") // note: 테스트할때는 application.yml의 test profile로 실행된다.
-@SpringBootTest
-//@DataJpaTest // note: SpringBootTest와 마찬가지로 SpringBoot를 띄워서 테스트를 진행하지만 JPA관련된 것만 띄워서 테스트를 진행한다.
+//@SpringBootTest
+@DataJpaTest // note: SpringBootTest와 마찬가지로 SpringBoot를 띄워서 테스트를 진행하지만 JPA관련된 것만 띄워서 테스트를 진행한다.
+             // note: 또한 DataJpaTest는 내부에 @Transactional이 있다. 따라서 하나의 테스트가 끝나고 rollback을 수행한다.
 class ProductRepositoryTest {
   // note: QueryMethod를 테스트
   // note:   사실 QueryMethod는 JPA에서 지원해주는 기능인데 왜 테스트 해야하는지 의문이 들 수 있다.
