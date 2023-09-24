@@ -8,25 +8,59 @@ import sample.cafekiosk.spring.domain.order.Order;
 import sample.cafekiosk.spring.domain.order.OrderRepository;
 import sample.cafekiosk.spring.domain.product.Product;
 import sample.cafekiosk.spring.domain.product.ProductRepository;
+import sample.cafekiosk.spring.domain.product.ProductType;
+import sample.cafekiosk.spring.domain.stock.Stock;
+import sample.cafekiosk.spring.domain.stock.StockRepository;
 
+import javax.transaction.Transactional;
 import java.time.LocalDateTime;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+@Transactional
 @RequiredArgsConstructor
 @Service
 public class OrderService {
 
   private final OrderRepository orderRepository;
   private final ProductRepository productRepository;
+  private final StockRepository stockRepository;
+
 
   public OrderCreateResponse createOrder(OrderCreateRequest orderCreateRequest, LocalDateTime registeredDateTime) {
     List<String> productNumbers = orderCreateRequest.getProductNumbers();
 
     List<Product> products = findProducts(productNumbers);
-    Order savedOrder = orderRepository.save(Order.create(products, registeredDateTime));
 
+    // 재고 차감 체크가 필요한 상품 필터링
+    List<String> stockProductNumbers = products.stream()
+            .filter(product -> ProductType.containsStockType(product.getType()))
+            .map(Product::getProductNumber)
+            .collect(Collectors.toList());
+    // 재고 엔티디 조회
+    List<Stock> stocks = stockRepository.findByProductNumberIn(stockProductNumbers);
+    Map<String, Stock> stockMap = stocks.stream()
+            .collect(Collectors.toMap(Stock::getProductNumber, s -> s));
+    // 상품 별 카운팅
+    Map<String, Long> productCountMap = stockProductNumbers.stream()
+            .collect(Collectors.groupingBy(p -> p, Collectors.counting()));
+    // 재고 차감 시도
+    for (String stockProductNumber : new HashSet<>(stockProductNumbers)) {
+      Stock stock = stockMap.get(stockProductNumber);
+      int quantity = productCountMap.get(stockProductNumber).intValue();
+      if (stock.isQuantityLessThan(quantity)) {
+        throw new IllegalArgumentException("재고가 부족한 상품이 있습니다.");
+        // note: stock.deductQuantity에서 예외처리를 하지만 여기서 예외처리하는 이유는 예외 전환을 위해서 사용했다.
+      }
+      stock.deductQuantity(quantity);
+    }
+
+
+    Order order = Order.create(products, registeredDateTime);
+    Order savedOrder = orderRepository.save(order);
     return OrderCreateResponse.of(savedOrder);
   }
 
