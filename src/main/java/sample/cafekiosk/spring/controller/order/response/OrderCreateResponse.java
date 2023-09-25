@@ -3,7 +3,7 @@ package sample.cafekiosk.spring.controller.order.response;
 import lombok.Builder;
 import lombok.Getter;
 import sample.cafekiosk.spring.domain.order.Order;
-import sample.cafekiosk.spring.service.product.response.ProductResponse;
+import sample.cafekiosk.spring.controller.product.response.ProductResponse;
 
 import java.time.LocalDateTime;
 import java.util.List;

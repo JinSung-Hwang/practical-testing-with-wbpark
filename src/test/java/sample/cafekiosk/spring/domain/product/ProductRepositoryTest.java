@@ -8,6 +8,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
+import org.springframework.transaction.annotation.Transactional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
@@ -32,27 +33,9 @@ class ProductRepositoryTest {
   @Test
   void findAllBySellingStatusIn() {
     // Given
-    Product product1 = Product.builder()
-            .productNumber("001")
-            .type(HANDMADE)
-            .sellingStatus(SELLING)
-            .name("아메리카노")
-            .price(4000)
-            .build();
-    Product product2 = Product.builder()
-            .productNumber("002")
-            .type(HANDMADE)
-            .sellingStatus(HOLD)
-            .name("카페라뗴")
-            .price(4500)
-            .build();
-    Product product3 = Product.builder()
-            .productNumber("003")
-            .type(HANDMADE)
-            .sellingStatus(STOP_SELLING)
-            .name("밭핑수")
-            .price(7000)
-            .build();
+    Product product1 = createProduct("001", HANDMADE, 4000, "아메리카노", SELLING);
+    Product product2 = createProduct("002", HANDMADE, 4500, "카페라떼", HOLD);
+    Product product3 = createProduct("003", HANDMADE, 7000, "팥빙수", STOP_SELLING);
     productRepository.saveAll(List.of(product1, product2, product3));
 
     // When
@@ -63,7 +46,7 @@ class ProductRepositoryTest {
             .extracting("productNumber", "name", "sellingStatus")
             .containsExactlyInAnyOrder(
               tuple("001", "아메리카노", SELLING),
-              tuple("002", "카페라뗴", HOLD)
+              tuple("002", "카페라떼", HOLD)
             );
   }
 
@@ -71,27 +54,9 @@ class ProductRepositoryTest {
   @Test
   void findAllProductByProductNumberIn() {
     // Given
-    Product product1 = Product.builder()
-            .productNumber("001")
-            .type(HANDMADE)
-            .sellingStatus(SELLING)
-            .name("아메리카노")
-            .price(4000)
-            .build();
-    Product product2 = Product.builder()
-            .productNumber("002")
-            .type(HANDMADE)
-            .sellingStatus(HOLD)
-            .name("카페라뗴")
-            .price(4500)
-            .build();
-    Product product3 = Product.builder()
-            .productNumber("003")
-            .type(HANDMADE)
-            .sellingStatus(STOP_SELLING)
-            .name("밭핑수")
-            .price(7000)
-            .build();
+    Product product1 = createProduct("001", HANDMADE, 4000, "아메리카노", SELLING);
+    Product product2 = createProduct("002", HANDMADE, 4500, "카페라떼", HOLD);
+    Product product3 = createProduct("003", HANDMADE, 7000, "팥빙수", STOP_SELLING);
     productRepository.saveAll(List.of(product1, product2, product3));
 
     // When
@@ -102,7 +67,46 @@ class ProductRepositoryTest {
             .extracting("productNumber", "name", "sellingStatus")
             .containsExactlyInAnyOrder(
                     tuple("001", "아메리카노", SELLING),
-                    tuple("002", "카페라뗴", HOLD)
+                    tuple("002", "카페라떼", HOLD)
             );
   }
+
+  @DisplayName("가장 마지막에 저장된 상품의 상품 번호를 조회한다.")
+  @Test
+  void findLatestProductNumber() {
+    // Given
+    Product product1 = createProduct("001", HANDMADE, 4000, "아메리카노", SELLING);
+    Product product2 = createProduct("002", HANDMADE, 4500, "카페라떼", HOLD);
+    Product product3 = createProduct("003", HANDMADE, 7000, "팥빙수", STOP_SELLING);
+    productRepository.saveAll(List.of(product1, product2, product3));
+
+    // When
+    String productNumber = productRepository.findLatestProductNumber();
+
+    // Then
+    assertThat(productNumber).isEqualTo("003");
+  }
+
+  private Product createProduct(String productNumber, ProductType type, int price, String name, ProductSellingStatus sellingStatus) {
+    return Product.builder()
+        .type(type)
+        .productNumber(productNumber)
+        .sellingStatus(sellingStatus)
+        .price(price)
+        .name(name)
+        .build();
+  }
+
+
+  @DisplayName("가장 마지막에 저장된 상품의 상품 번호를 조회할때, 상품이 하나도 없는 경우에는 null을 반환한다.")
+  @Test
+  void findLatestProductNumberWhenProductIsEmpty() {
+    // When
+    String productNumber = productRepository.findLatestProductNumber();
+
+    // Then
+    assertThat(productNumber).isNull();
+  }
+
+
 }
