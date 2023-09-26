@@ -1,7 +1,6 @@
-package sample.cafekiosk.spring.controller.product.request;
+package sample.cafekiosk.spring.service.product.request;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.Builder;
@@ -9,11 +8,10 @@ import lombok.Getter;
 import sample.cafekiosk.spring.domain.product.Product;
 import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
 import sample.cafekiosk.spring.domain.product.ProductType;
-import sample.cafekiosk.spring.service.product.request.ProductCreateServiceRequest;
 
 
 @Getter
-public class ProductCreateRequest {
+public class ProductCreateServiceRequest {
   @NotNull(message = "상품 타입은 필수입니다.")
   private ProductType type;
   @NotNull(message = "상품 판매 상태는 필수입니다.")
@@ -28,21 +26,21 @@ public class ProductCreateRequest {
 
 
   @Builder
-  private ProductCreateRequest(ProductType type, ProductSellingStatus sellingStatus, String name, int price) {
+  private ProductCreateServiceRequest(ProductType type, ProductSellingStatus sellingStatus, String name, int price) {
     this.type = type;
     this.sellingStatus = sellingStatus;
     this.name = name;
     this.price = price;
   }
 
-  public ProductCreateServiceRequest toServiceRequest() {
-    return ProductCreateServiceRequest
+  public Product toEntity(String productNumber) {
+    return Product
         .builder()
         .type(type)
+        .productNumber(productNumber)
         .sellingStatus(sellingStatus)
         .name(name)
         .price(price)
         .build();
   }
-
 }

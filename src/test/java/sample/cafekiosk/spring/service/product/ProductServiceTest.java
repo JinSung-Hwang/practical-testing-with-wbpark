@@ -12,12 +12,12 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
-import sample.cafekiosk.spring.controller.product.request.ProductCreateRequest;
 import sample.cafekiosk.spring.domain.product.Product;
 import sample.cafekiosk.spring.domain.product.ProductRepository;
 import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
 import sample.cafekiosk.spring.domain.product.ProductType;
 import sample.cafekiosk.spring.controller.product.response.ProductResponse;
+import sample.cafekiosk.spring.service.product.request.ProductCreateServiceRequest;
 
 @ActiveProfiles("test")
 @SpringBootTest
@@ -41,7 +41,7 @@ class ProductServiceTest {
     Product product = createProduct("001", HANDMADE, 7000, "팥빙수", SELLING);
     productRepository.saveAll(List.of(product));
 
-    ProductCreateRequest productCreateRequest = ProductCreateRequest
+    ProductCreateServiceRequest productCreateServiceRequest = ProductCreateServiceRequest
         .builder()
         .sellingStatus(SELLING)
         .type(HANDMADE)
@@ -50,7 +50,7 @@ class ProductServiceTest {
         .build();
 
     // When
-    ProductResponse productResponse = productService.createProduct(productCreateRequest);
+    ProductResponse productResponse = productService.createProduct(productCreateServiceRequest);
 
     // Then
     // note: 서비스 테스트는 응답과 DB에 데이터가 잘 들어갔는지도 검증했다. service를 통합 테스트형식으로 작성했기 때문이다.
@@ -71,7 +71,7 @@ class ProductServiceTest {
   @Test
   void createProductWhenProductsIsEmpty() {
     // Given
-    ProductCreateRequest productCreateRequest = ProductCreateRequest
+    ProductCreateServiceRequest productCreateServiceRequest = ProductCreateServiceRequest
         .builder()
         .sellingStatus(SELLING)
         .type(HANDMADE)
@@ -80,7 +80,7 @@ class ProductServiceTest {
         .build();
 
     // When
-    ProductResponse productResponse = productService.createProduct(productCreateRequest);
+    ProductResponse productResponse = productService.createProduct(productCreateServiceRequest);
 
     // Then
     // note: 서비스 테스트는 응답과 DB에 데이터가 잘 들어갔는지도 검증했다. service를 통합 테스트형식으로 작성했기 때문이다.
