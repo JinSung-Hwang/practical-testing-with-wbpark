@@ -1,9 +1,7 @@
 package sample.cafekiosk.spring.controller;
 
 import lombok.Getter;
-import org.springframework.context.annotation.Primary;
 import org.springframework.http.HttpStatus;
-import sample.cafekiosk.spring.controller.product.response.ProductResponse;
 
 @Getter
 public class ApiResponse<T> {

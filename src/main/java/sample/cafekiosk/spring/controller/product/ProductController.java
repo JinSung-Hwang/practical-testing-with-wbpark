@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import sample.cafekiosk.spring.controller.ApiResponse;
 import sample.cafekiosk.spring.controller.product.request.ProductCreateRequest;
-import sample.cafekiosk.spring.controller.product.response.ProductResponse;
+import sample.cafekiosk.spring.service.product.response.ProductResponse;
 import sample.cafekiosk.spring.service.product.ProductService;
 
 import java.util.List;

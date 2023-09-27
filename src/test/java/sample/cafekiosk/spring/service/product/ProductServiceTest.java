@@ -16,7 +16,7 @@ import sample.cafekiosk.spring.domain.product.Product;
 import sample.cafekiosk.spring.domain.product.ProductRepository;
 import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
 import sample.cafekiosk.spring.domain.product.ProductType;
-import sample.cafekiosk.spring.controller.product.response.ProductResponse;
+import sample.cafekiosk.spring.service.product.response.ProductResponse;
 import sample.cafekiosk.spring.service.product.request.ProductCreateServiceRequest;
 
 @ActiveProfiles("test")

@@ -3,11 +3,10 @@ package sample.cafekiosk.spring.service.product;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import sample.cafekiosk.spring.controller.product.request.ProductCreateRequest;
 import sample.cafekiosk.spring.domain.product.Product;
 import sample.cafekiosk.spring.domain.product.ProductRepository;
 import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
-import sample.cafekiosk.spring.controller.product.response.ProductResponse;
+import sample.cafekiosk.spring.service.product.response.ProductResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;

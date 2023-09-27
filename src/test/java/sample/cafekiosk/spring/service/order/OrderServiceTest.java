@@ -7,7 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 import sample.cafekiosk.spring.controller.order.request.OrderCreateServiceRequest;
-import sample.cafekiosk.spring.controller.order.response.OrderCreateResponse;
+import sample.cafekiosk.spring.service.order.response.OrderCreateResponse;
 import sample.cafekiosk.spring.domain.order.OrderRepository;
 import sample.cafekiosk.spring.domain.orderProduct.OrderProductRepository;
 import sample.cafekiosk.spring.domain.product.Product;

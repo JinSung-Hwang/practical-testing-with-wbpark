@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import sample.cafekiosk.spring.controller.ApiResponse;
 import sample.cafekiosk.spring.controller.order.request.OrderCreateServiceRequest;
-import sample.cafekiosk.spring.controller.order.response.OrderCreateResponse;
+import sample.cafekiosk.spring.service.order.response.OrderCreateResponse;
 import sample.cafekiosk.spring.service.order.OrderService;
 
 import java.time.LocalDateTime;
