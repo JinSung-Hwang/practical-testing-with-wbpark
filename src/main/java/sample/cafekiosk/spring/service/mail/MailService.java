@@ -9,11 +9,11 @@ import sample.cafekiosk.spring.domain.history.MailSendHistoryRepository;
 @RequiredArgsConstructor
 @Service
 public class MailService { // note: 메일 전송의 전처리, 후처리 하는 책임이 있는 service이다.
-  private final MailSendClient mailClient;
+  private final MailSendClient mailSendClient;
   private final MailSendHistoryRepository mailSendHistoryRepository;
 
   public boolean sendMail(String senderMail, String receiverMail, String title, String contents) {
-    boolean isSend = mailClient.sendMail(senderMail, receiverMail, title, contents);
+    boolean isSend = mailSendClient.sendMail(senderMail, receiverMail, title, contents);
     if (isSend) {
       mailSendHistoryRepository.save(
           MailSendHistory
@@ -24,6 +24,9 @@ public class MailService { // note: 메일 전송의 전처리, 후처리 하는
               .contents(contents)
               .build()
       );
+      mailSendClient.a();
+      mailSendClient.b();
+      mailSendClient.c();
       return true;
     }
     return false;
