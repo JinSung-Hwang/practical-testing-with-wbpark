@@ -9,6 +9,7 @@ import static org.mockito.Mockito.times;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.BDDMockito;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Mockito;
@@ -68,8 +69,11 @@ class MailServiceTest {
     // note: 그리고 테스트 클래스 제일 위에 @ExtendWith(MockitoExtension.class)를 작성해서 Mockito를 사용해서 mock을 만들것이라고 명시해야 @Mock, @InjectMocks가 제대로 동작한다.
 
     // Given
-    Mockito.when(mailSendClient.sendMail(anyString(), anyString(), anyString(), anyString()))
-        .thenReturn(true);
+//    Mockito.when(mailSendClient.sendMail(anyString(), anyString(), anyString(), anyString()))
+//        .thenReturn(true);
+    // note: BDD format에 테스트 코드를 작성하는데 Given 단락에 Mockito.when이라는 문법이 어색하다. 그래서 Mockito를 상속받은 BDDMockito라는 클래스는 BDD format으로 테스트 코드를 작성할 수 있게 해준다.
+    BDDMockito.given(mailSendClient.sendMail(anyString(), anyString(), anyString(), anyString()))
+        .willReturn(true);
 
     // note: @Spy를 사용하면 위에 Mockito.when 방식으로 stubbing할순 없고 doReturn형식으로 stubbing을 진행해야 된다.
 //    doReturn(true)
