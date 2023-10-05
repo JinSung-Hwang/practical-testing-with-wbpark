@@ -48,9 +48,15 @@ class OrderServiceTest {
 //    orderProductRepository.deleteAll();
 //    orderRepository.deleteAll();
 //    productRepository.deleteAll();
-    // note: deleteAll보다는 deleteAllInBatch를 사용한 이유
-    // note:   deleteAll은 레코드를 조회하고 1차캐시에 넣어두고 한 레코드씩 삭제하는 방식이다. 매우 비효율적이다.
-    // note:   반면에 deleteAllInBatch는 바로 delete문만 생성하고 바로 레코드를 삭제하는 방식이다.
+
+    // note: deleteAll 작동 방식
+    // note:   deleteAll은 findAll을 통해서 모든 레코드를 조회하여 1차캐시에 넣어두고 한 레코드씩 delete문을 호출하여 삭제하는 방식이다. 매우 비효율적이다.
+    // note:   다만 deleteAll은 연관관계가 맺어진 entity의 데이터도 같이 삭제 시켜준다. 단 연관관계 설정을 하지 않았다면 연관된 테이블의 데이터를 같이 지우지 않는다.
+
+    // note: deleteAllInBatch 작동 방식
+    // note:   deleteAllInBatch는 바로 delete문만 생성하고 바로 레코드를 삭제하는 방식이다. 효율적이다.
+    // note:   연관된 entity데이터를 지우지 않는다. 따라서 데이터를 클렌징할때 데이터 클렌징 순서가 중요할 수 있다.
+    // note:   테스트 수행도 비용이니 효율적이고 빠른 deleteAllInBatch를 사용하는것이 좋다.
 
     orderProductRepository.deleteAllInBatch();
     orderRepository.deleteAllInBatch();
