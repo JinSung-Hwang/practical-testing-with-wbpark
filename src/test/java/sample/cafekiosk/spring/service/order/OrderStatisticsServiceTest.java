@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ActiveProfiles;
+import sample.cafekiosk.spring.IntegrationTestSupport;
 import sample.cafekiosk.spring.client.MailSendClient;
 import sample.cafekiosk.spring.domain.history.MailSendHistory;
 import sample.cafekiosk.spring.domain.history.MailSendHistoryRepository;
@@ -29,9 +30,9 @@ import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
 import sample.cafekiosk.spring.domain.product.ProductType;
 import sample.cafekiosk.spring.service.mail.MailService;
 
-@ActiveProfiles("test")
-@SpringBootTest
-class OrderStatisticsServiceTest {
+//@ActiveProfiles("test")
+//@SpringBootTest
+class OrderStatisticsServiceTest extends IntegrationTestSupport  {
   // note: SpringBootTest를 하면 Spring Bean을 객체를 모두 등록해서 테스트 하기떄문에 테스트 코드에서 각 객체들을 주입할 필요는 없다.
   // note: 다만 밑에서 @Autowired를 하는것은 아래 테스트 코드에서 사용할 객체들을 주입해서 사용한것이다.
   // note:   예를 들어 MailService는 테스트 코드에서 사용하지 않기때문에 @Autowired로 주입하지 않았다.
@@ -50,8 +51,8 @@ class OrderStatisticsServiceTest {
   private MailSendHistoryRepository mailSendHistoryRepository;
 
 
-  @MockBean // note: mailSendClient를 mock 객체로 만들고 mailSendClient대신 주입한다.
-  private MailSendClient mailSendClient;
+//  @MockBean // note: mailSendClient를 mock 객체로 만들고 mailSendClient대신 주입한다. // note: IntegrationTestSupport를 확인을 해야함
+//  private MailSendClient mailSendClient;
 
   @AfterEach
   void tearDown() {

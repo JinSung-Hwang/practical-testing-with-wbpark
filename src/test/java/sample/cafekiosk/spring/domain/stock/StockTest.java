@@ -54,14 +54,14 @@ class StockTest {
   }
 
    // note: 테스트가 시나리오적으로 단계 단계 검증하면서 테스트하고 싶을때 DynamicTest를 진행할 수 있다.
-  @DisplayName("")
+  @DisplayName("다이나믹 테스트 구조")
   @TestFactory
   Collection<DynamicTest> dynamicTest() {
     return List.of( // note: 이터러블한 객체를 리턴하면 된다. list, stream 등등
-        DynamicTest.dynamicTest("", () -> {
+        DynamicTest.dynamicTest("구조11", () -> {
 
         }),
-        DynamicTest.dynamicTest("", () -> {
+        DynamicTest.dynamicTest("구조2", () -> {
 
         })
     );

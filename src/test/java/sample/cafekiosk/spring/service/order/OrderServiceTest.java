@@ -6,6 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
+import sample.cafekiosk.spring.IntegrationTestSupport;
 import sample.cafekiosk.spring.controller.order.request.OrderCreateServiceRequest;
 import sample.cafekiosk.spring.service.order.response.OrderCreateResponse;
 import sample.cafekiosk.spring.domain.order.OrderRepository;
@@ -23,14 +24,14 @@ import static org.assertj.core.api.Assertions.*;
 import static sample.cafekiosk.spring.domain.product.ProductSellingStatus.*;
 import static sample.cafekiosk.spring.domain.product.ProductType.*;
 
-@ActiveProfiles("test") // note: 테스트할때는 application.yml의 test profile로 실행된다.
+//@ActiveProfiles("test") // note: 테스트할때는 application.yml의 test profile로 실행된다.
 //@Transactional
 // note: JPA의 dirtyChecking은 트랜잭션 경계선 설정이 되어있어야한다.
 // note: 테스트케이스에서 @Transactional을 사용했는데 Service에서 @Transactional을 설정 안했다면 Test는 통과하지만 배포된 코드가 제대로 동작하지 않을 수 있다.
 // note: 이점을 잘 인지하고 test code에서 @Transactional을 사용해야한다.
 // note: 만약 이런 경우를 안만들기 위해서는 아래 코드 처럼 @AfterEach와 deleteAllInBatch를 이용해서 테스트 마다 데이터를 지워야한다.
-@SpringBootTest
-class OrderServiceTest {
+//@SpringBootTest
+class OrderServiceTest extends IntegrationTestSupport {
   @Autowired
   private OrderService orderService;
   @Autowired

@@ -16,6 +16,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import sample.cafekiosk.spring.ControllerTestSupport;
 import sample.cafekiosk.spring.controller.product.request.ProductCreateRequest;
 import sample.cafekiosk.spring.service.product.response.ProductResponse;
 import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
@@ -23,17 +24,18 @@ import sample.cafekiosk.spring.domain.product.ProductType;
 import sample.cafekiosk.spring.service.product.ProductService;
 
 // note: @SpringBootTest는 모든 Spring Bean들을(설정 Bean, 테스트와 관련 없는 Bean) 탐색해서 다 등록하고 테스트를 진행한다. 모든 Bean을 등록하려니 테스트가 많이 느리다.
-@WebMvcTest(controllers = ProductController.class)  // note: 이거는 SpringBoot의 많은 Bean들중에 MVC와 관련된 Bean만 띄운다.
-class ProductControllerTest {
+//@WebMvcTest(controllers = ProductController.class)  // note: 이거는 SpringBoot의 많은 Bean들중에 MVC와 관련된 Bean만 띄운다.
+class ProductControllerTest extends ControllerTestSupport {
 
-  @Autowired
-  private MockMvc mockMvc;
-
-  @Autowired
-  private ObjectMapper objectMapper;
-
-  @MockBean
-  private ProductService productService;
+//  note: 아래 의존성이 ControllerTestSupport로 올라감
+//  @Autowired
+//  private MockMvc mockMvc;
+//
+//  @Autowired
+//  private ObjectMapper objectMapper;
+//
+//  @MockBean
+//  private ProductService productService;
 
   @DisplayName("신규 상품을 등록한다.")
   @Test
