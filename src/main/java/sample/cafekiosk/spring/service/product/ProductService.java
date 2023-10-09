@@ -27,6 +27,7 @@ import sample.cafekiosk.spring.service.product.request.ProductCreateServiceReque
 @Service
 public class ProductService {
   private final ProductRepository productRepository;
+  private final ProductNumberFactory productNumberFactory;
 
   // 동시성 이슈
   // UUID
@@ -38,7 +39,8 @@ public class ProductService {
     // note:   예를들어 app, web, pc, kiosk, sdk 등등 다양한 클라이언트때문에 controller가 바뀌더라도 controller dto는 ProductCreateServiceRequest만 만들어서 service를 호출하면 된다.
     // note: --> 이것을 왜 이렇게 만들었는지 이해는 간다. 내가 아직 이렇게 큰 서비스를 만들지 않아서 그런지는 모르겠지만 납득이 되지는 않는다.
     // note:     지금 회사에서는 client는 web, android만 있는 상황인데 이렇게 만들필요가 있을까 싶다.... 클라이언트가 다양한 서비스이고 큰 서비스이어야 사용할만하지 않을까 싶다.
-    String newProductNumber = generateNextProductNumber();
+//    String newProductNumber = generateNextProductNumber();
+    String newProductNumber = productNumberFactory.generateNextProductNumber(); // note: (내 개인적 생각에는 generateNextProductNumber이 method가 ProductNumberFactory로 분리해야하는것이 아니라 Product domain 객체 안에 있도록 리펙토링 해야할거 같다.)
 
     Product product = productCreateRequest.toEntity(newProductNumber);
     Product savedProduct = productRepository.save(product);
@@ -46,17 +48,17 @@ public class ProductService {
     return ProductResponse.of(savedProduct);
   }
 
-  private String generateNextProductNumber() {
-    String productNumber = productRepository.findLatestProductNumber();
-    if (productNumber == null) {
-      return "001";
-    }
-
-    int productNumberInt = Integer.parseInt(productNumber);
-    int nextProductNumberInt = productNumberInt + 1;
-
-    return String.format("%03d", nextProductNumberInt);
-  }
+//  private String generateNextProductNumber() { // note: private method는 테스트하기 어렵다. 그치만 테스트하고 싶다면 "객체를 분리해야하는 시점이 아닌가?" 생각해보고 분리해야한다면 객체를 분리하고 테스트하자
+//    String productNumber = productRepository.findLatestProductNumber();
+//    if (productNumber == null) {
+//      return "001";
+//    }
+//
+//    int productNumberInt = Integer.parseInt(productNumber);
+//    int nextProductNumberInt = productNumberInt + 1;
+//
+//    return String.format("%03d", nextProductNumberInt);
+//  }
 
 
   public List<ProductResponse> getSellingProducts() {
