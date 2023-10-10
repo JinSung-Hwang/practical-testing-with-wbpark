@@ -2,6 +2,7 @@ plugins {
     id 'java'
     id 'org.springframework.boot' version '2.7.15'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.asciidoctor.jvm.convert' version '3.3.2' // note: 아키닥터 플러그인 추가
 }
 
 group = 'sample'
@@ -15,6 +16,7 @@ configurations {
     compileOnly {
         extendsFrom annotationProcessor
     }
+    asciidoctorExt // note: 아키닥터 익스텐션 추가
 }
 
 repositories {
@@ -39,8 +41,38 @@ dependencies {
 
     // guava
     implementation("com.google.guava:guava:31.1-jre")
+
+    // RestDocs
+    asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
+    testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 }
 
 tasks.named('test') {
     useJUnitPlatform()
+}
+
+// note: 아래 과정(54~78Line)은 빌드를 통해 jar파일이 만들어지면 그 jar파일안에 RESTDocs 파일을 넣는 방법을 담는 스크립트이다.
+
+ext { // note: 전역 변수 추가
+    // note: 스니펫이라는 코드 조각
+    snippetsDir = file('build/generated-snippets') // note: 스니펫의 경로를 전역 변수로 추가함
+}
+
+test { // note: 테스트가 수행되면
+    outputs.dir snippetsDir // note: 테스트가 끝난 결과물의 디렉토리를 설정함
+}
+
+asciidoctor {
+    dependsOn test // note: dependsOn 은 작업 순서를 나타낸다. 즉 test가 끝난후 asciidoctor가 실행된다.
+
+    inputs.dir snippetsDir // note: test에서 테스트가 끝난 결과물을 받아서
+    configurations 'asciidoctorExt' // note: 아스키닥터 결과물을 만든다.
+}
+
+bootJar {
+    dependsOn asciidoctor // note: 아스키닥터가 끝난 후에
+
+    from("${asciidoctor.outputDir}") {  // note:  아스키독터의 결과물을 가져다가
+        into 'static/docs' // note: 정적 파일로 보기위해서 소스코드 안에 static/docs위치에 복사한다.
+    }
 }
