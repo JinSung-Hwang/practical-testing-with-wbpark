@@ -6,6 +6,7 @@ import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Positive;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import sample.cafekiosk.spring.domain.product.Product;
 import sample.cafekiosk.spring.domain.product.ProductSellingStatus;
 import sample.cafekiosk.spring.domain.product.ProductType;
@@ -13,6 +14,7 @@ import sample.cafekiosk.spring.service.product.request.ProductCreateServiceReque
 
 
 @Getter
+@NoArgsConstructor
 public class ProductCreateRequest {
   @NotNull(message = "상품 타입은 필수입니다.")
   private ProductType type;
