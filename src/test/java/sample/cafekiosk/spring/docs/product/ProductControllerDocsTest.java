@@ -70,7 +70,7 @@ public class ProductControllerDocsTest extends RestDocsSupport {
                 preprocessResponse(prettyPrint()),
                 requestFields(
                     fieldWithPath("type").type(JsonFieldType.STRING).description("상품 타입"),
-                    fieldWithPath("sellingStatus").type(JsonFieldType.STRING).description("판매 상태"),
+                    fieldWithPath("sellingStatus").type(JsonFieldType.STRING).optional().description("판매 상태"),
                     fieldWithPath("name").type(JsonFieldType.STRING).description("상품 이름"),
                     fieldWithPath("price").type(JsonFieldType.NUMBER).description("상품 가격")
                 ),
